@@ -50,7 +50,7 @@
                             <td>
                                 <div class="d-flex py-1 align-items-center">
                                     <span class="avatar me-2"
-                                        style="background-image: url({{ $product->image ? asset('storage/' . $product->image) : asset('tabler/static/avatars/000m.jpg') }})"></span>
+                                        style="background-image: url({{ $product->image ? asset('storage/' . $product->image) : asset('tabler/static/products/product.jpg') }})"></span>
                                     <div class="flex-fill">
                                         <div class="font-weight-medium">{{ $product->name }}</div>
                                     </div>
