@@ -69,6 +69,9 @@
     <script src="{{ asset('tabler/libs/apexcharts/dist/apexcharts.min.js') }}" defer></script>
     <script src="{{ asset('tabler/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('tabler/js/demo.min.js') }}" defer></script>
+
+    @include('sweetalert::alert')
+
     @stack('js')
 </body>
 
