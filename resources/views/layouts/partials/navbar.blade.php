@@ -6,7 +6,7 @@
         </button>
         <h1 class="navbar-brand navbar-brand-autodark">
             <a href=".">
-                <img src="{{ asset('static/logo-white.svg') }}" width="110" height="32" alt="Tabler"
+                <img src="{{ asset('tabler/static/logo-white.svg') }}" width="110" height="32" alt="Tabler"
                     class="navbar-brand-image">
             </a>
         </h1>
@@ -47,6 +47,7 @@
                         </span>
                     </a>
                 </li>
+                {{-- Tambahkan menu lain di sini --}}
             </ul>
         </div>
     </div>
