@@ -107,13 +107,10 @@
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // PERBAIKAN: Menyamakan script dengan halaman kategori
             const deleteForms = document.querySelectorAll('.delete-form');
-
             deleteForms.forEach(form => {
                 form.addEventListener('submit', function(event) {
                     event.preventDefault();
-
                     Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",
