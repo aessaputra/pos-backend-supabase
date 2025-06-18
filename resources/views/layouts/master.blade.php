@@ -11,7 +11,6 @@
     <link href="{{ asset('tabler/css/tabler-flags.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('tabler/css/tabler-payments.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('tabler/css/tabler-vendors.min.css') }}" rel="stylesheet" />
-    {{-- <link href="{{ asset('tabler/css/demo.css') }}" rel="stylesheet"/> --}} {{-- DIHAPUS/DIKOMENTARI --}}
     @stack('css')
     <style>
         @import url('https://rsms.me/inter/inter.css');
@@ -27,7 +26,6 @@
 </head>
 
 <body>
-    {{-- <script src="{{ asset('tabler/js/demo-theme.min.js') }}"></script> --}} {{-- DIHAPUS/DIKOMENTARI --}}
     <div class="page">
         <!-- Sidebar -->
         @include('layouts.partials.navbar')
@@ -77,6 +75,8 @@
     <!-- Tabler Core -->
     <script src="{{ asset('tabler/js/tabler.min.js') }}" defer></script>
 
+    {{-- SWAL --}}
+    <script src="{{ asset('vendor/sweetalert/sweetalert.all.js') }}"></script>
     @include('sweetalert::alert')
 
     @stack('js')
