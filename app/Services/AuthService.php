@@ -19,4 +19,9 @@ class AuthService
 
         return new LoginSuccessDTO(token: $token, user: $user);
     }
+
+    public function logout(User $user): void
+    {
+        $user->currentAccessToken()->delete();
+    }
 }

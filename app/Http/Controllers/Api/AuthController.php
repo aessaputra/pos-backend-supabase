@@ -16,9 +16,6 @@ class AuthController extends Controller
         //
     }
 
-    /**
-     * Menangani permintaan login dari pengguna.
-     */
     public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->validated();
@@ -37,5 +34,12 @@ class AuthController extends Controller
             'token'   => $loginResult->token,
             'user'    => new UserResource($loginResult->user)
         ], Response::HTTP_OK);
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        $this->authService->logout($request->user());
+
+        return response()->json(['message' => 'Logout successful'], Response::HTTP_OK);
     }
 }
