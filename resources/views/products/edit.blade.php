@@ -76,7 +76,7 @@
                                 <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                                     class="img-thumbnail mt-2" width="150">
                             @else
-                                <img src="{{ asset('tabler/static/avatars/000m.jpg') }}" alt="No image"
+                                <img src="{{ asset('tabler/static/products/product.jpg') }}" alt="No image"
                                     class="img-thumbnail mt-2" width="150">
                             @endif
                         </div>

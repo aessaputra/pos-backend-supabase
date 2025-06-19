@@ -70,7 +70,6 @@
                                     <a href="{{ route('products.edit', $product) }}" class="btn btn-secondary">
                                         Edit
                                     </a>
-                                    {{-- PERBAIKAN: Menyamakan struktur form dengan halaman kategori --}}
                                     <form action="{{ route('products.destroy', $product) }}" method="POST"
                                         class="d-inline delete-form">
                                         @csrf
