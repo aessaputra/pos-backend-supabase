@@ -70,12 +70,13 @@
                                     <a href="{{ route('products.edit', $product) }}" class="btn btn-secondary">
                                         Edit
                                     </a>
-                                    {{-- PERBAIKAN: Menyamakan struktur form dengan halaman kategori --}}
-                                    <form action="{{ route('products.destroy', $product) }}" method="POST"
-                                        class="d-inline delete-form">
+                                    {{-- PERBAIKAN: Form sekarang punya ID unik dan tombolnya menjadi pemicu --}}
+                                    <form id="delete-form-{{ $product->id }}"
+                                        action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="button" class="btn btn-danger delete-btn"
+                                            data-form-id="{{ $product->id }}">Delete</button>
                                     </form>
                                 </div>
                             </td>
@@ -107,12 +108,13 @@
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // PERBAIKAN: Menyamakan script dengan halaman kategori
-            const deleteForms = document.querySelectorAll('.delete-form');
+            // PERBAIKAN: Menargetkan tombol klik, bukan event submit form
+            const deleteButtons = document.querySelectorAll('.delete-btn');
 
-            deleteForms.forEach(form => {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault();
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    const formId = this.getAttribute('data-form-id');
+                    const form = document.getElementById('delete-form-' + formId);
 
                     Swal.fire({
                         title: 'Are you sure?',
