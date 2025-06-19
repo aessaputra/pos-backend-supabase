@@ -11,7 +11,6 @@
                         Category List
                     </h2>
                 </div>
-                <!-- Tombol Tambah Kategori -->
                 <div class="col-auto ms-auto d-print-none">
                     <a href="{{ route('categories.create') }}" class="btn btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -51,7 +50,6 @@
                             <td><span class="text-muted">{{ $categories->firstItem() + $index }}</span></td>
                             <td>{{ $category->name }}</td>
                             <td>
-                                {{-- Menampilkan jumlah produk. Membutuhkan withCount('products') di controller untuk efisiensi. --}}
                                 <span class="badge bg-purple-lt">{{ $category->products_count ?? 0 }}</span>
                             </td>
                             <td>{{ $category->created_at->format('d M Y') }}</td>
@@ -79,7 +77,6 @@
                 </tbody>
             </table>
         </div>
-        {{-- Paginasi --}}
         @if ($categories->hasPages())
             <div class="card-footer d-flex align-items-center">
                 <p class="m-0 text-muted">

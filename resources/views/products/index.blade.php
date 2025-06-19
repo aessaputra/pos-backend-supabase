@@ -70,13 +70,11 @@
                                     <a href="{{ route('products.edit', $product) }}" class="btn btn-secondary">
                                         Edit
                                     </a>
-                                    {{-- PERBAIKAN: Form sekarang punya ID unik dan tombolnya menjadi pemicu --}}
-                                    <form id="delete-form-{{ $product->id }}"
-                                        action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('products.destroy', $product) }}" method="POST"
+                                        class="d-inline delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger delete-btn"
-                                            data-form-id="{{ $product->id }}">Delete</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
                                 </div>
                             </td>
@@ -108,14 +106,10 @@
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // PERBAIKAN: Menargetkan tombol klik, bukan event submit form
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function(event) {
-                    const formId = this.getAttribute('data-form-id');
-                    const form = document.getElementById('delete-form-' + formId);
-
+            const deleteForms = document.querySelectorAll('.delete-form');
+            deleteForms.forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
                     Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",
