@@ -4,26 +4,28 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
+use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
-    protected $authService;
-
-    public function __construct(AuthService $authService)
+    public function __construct(protected AuthService $authService)
     {
-        $this->authService = $authService;
+        //
     }
 
+    /**
+     * Menangani permintaan login dari pengguna.
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         $credentials = $request->validated();
 
-        $token = $this->authService->loginAndCreateToken($credentials);
+        $loginResult = $this->authService->loginAndCreateToken($credentials);
 
-        if (!$token) {
+        if (!$loginResult) {
             return response()->json(
                 ['message' => 'The provided credentials do not match our records.'],
                 Response::HTTP_UNAUTHORIZED
@@ -31,8 +33,9 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'Bearer',
+            'message' => 'Login successful',
+            'token'   => $loginResult->token,
+            'user'    => new UserResource($loginResult->user)
         ], Response::HTTP_OK);
     }
 }
