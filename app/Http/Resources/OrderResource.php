@@ -14,7 +14,7 @@ class OrderResource extends JsonResource
 
             'cashier_name'       => $this->whenLoaded('cashier', $this->cashier->name),
 
-            'total_price'        => (int) $this->total_price,
+            'total_price'        => (float) $this->total_price,
             'total_item'         => (int) $this->total_item,
             'payment_method'     => $this->payment_method,
             'transaction_time'   => $this->created_at->format('Y-m-d H:i:s'),
