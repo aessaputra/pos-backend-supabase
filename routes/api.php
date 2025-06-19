@@ -9,3 +9,6 @@ Route::get('/user', function (Request $request) {
 
 // Login
 Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
+
+// Categories
+Route::get('/categories', [App\Http\Controllers\Api\CategoryController::class, 'index'])->middleware('auth:sanctum');
