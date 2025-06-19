@@ -18,7 +18,6 @@
 
 @section('content')
     <div class="card">
-        {{-- Tambahkan enctype untuk upload file --}}
         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
