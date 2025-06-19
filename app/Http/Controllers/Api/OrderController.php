@@ -32,7 +32,7 @@ class OrderController extends Controller
             $order->orderItems()->create([
                 'product_id' => $item['products_id'],
                 'quantity' => $item['quantity'],
-                'price' => Product::find($item['products_id'])->price * $item['quantity'],
+                'total_price' => Product::find($item['products_id'])->price * $item['quantity'],
             ]);
         }
 
