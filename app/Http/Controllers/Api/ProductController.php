@@ -3,17 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Http\Resources\ProductResource;
+use App\Services\ProductService;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
+    public function __construct(protected ProductService $productService)
     {
-        $products = Product::with('category')->get();
-        return response()->json([
-            'message' => 'Products retrieved successfully',
-            'data'    => $products
-        ]);
+        //
+    }
+
+
+    public function index(): AnonymousResourceCollection
+    {
+        $products = $this->productService->getAllProducts();
+
+        return ProductResource::collection($products);
     }
 }
