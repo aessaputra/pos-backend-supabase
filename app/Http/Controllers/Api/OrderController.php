@@ -3,42 +3,44 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Requests\Api\StoreOrderRequest;
+use App\Http\Resources\OrderResource;
+use App\Services\OrderService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Log\Logger;
+use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
-    public function store(Request $request)
+    public function __construct(protected OrderService $orderService, protected Logger $logger)
     {
-        $validatedData = $request->validate([
-            'cashier_id' => 'required',
-            'items' => 'required|array',
-            'items.*.products_id' => 'required|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
-        ]);
+        //
+    }
 
-        $order = Order::create([
-            'transaction_number' => 'TRX-' . strtoupper(uniqid()),
-            'cashier_id' => $validatedData['cashier_id'],
-            'total_price' => collect($validatedData['items'])->sum(function ($item) {
-                return Product::find($item['products_id'])->price * $item['quantity'];
-            }),
-            'total_item' => collect($validatedData['items'])->sum('quantity'),
-            'payment_method' => $request->input('payment_method', 'cash'),
-        ]);
+    public function store(StoreOrderRequest $request): JsonResponse
+    {
+        try {
+            $validatedData = $request->validated();
 
-        foreach ($validatedData['items'] as $item) {
-            $order->orderItems()->create([
-                'product_id' => $item['products_id'],
-                'quantity' => $item['quantity'],
-                'total_price' => Product::find($item['products_id'])->price * $item['quantity'],
-            ]);
+            $order = $this->orderService->createOrder($validatedData, $request->user());
+
+            $order->load('cashier', 'orderItems.product');
+
+            return (new OrderResource($order))
+                ->response()
+                ->setStatusCode(201);
+
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Validasi gagal.',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            $this->logger->error('Order creation failed: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'Terjadi kesalahan pada server saat membuat pesanan.'
+            ], 500);
         }
-
-        return response()->json([
-            'message' => 'Order created successfully',
-            'order' => $order->load('orderItems.product'),
-        ], 201);
     }
 }
